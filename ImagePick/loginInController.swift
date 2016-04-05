@@ -18,6 +18,7 @@ class logInController: UIViewController,UITextFieldDelegate {
         return true;
     }
     @IBAction func logIn(sender: AnyObject) {
+        //Action to log users in.
         KCSUser.loginWithUsername(
             self.username.text!,
             password: self.password.text!,
@@ -39,7 +40,6 @@ class logInController: UIViewController,UITextFieldDelegate {
                 }
             }
         )
-        //self.createUser(self.username.text!, password: self.password.text!)
     }
     override func viewWillAppear(animated: Bool) {
         self.navigationItem.setHidesBackButton(true, animated:true);

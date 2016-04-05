@@ -17,8 +17,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet var takePhotoBtn: UIButton!
     @IBOutlet var uploadBTN: UIButton!
     
-    @IBOutlet var photoPlace: UITextField!
-    @IBOutlet var photoName: UITextField!
     
     let imagePicker = UIImagePickerController()
     
@@ -32,33 +30,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         self.performSegueWithIdentifier("showImage", sender: imagePreview)
     }
-    @IBAction func capturePhoto(sender: AnyObject) {
-        if let videoConnection = stillImageOutput!.connectionWithMediaType(AVMediaTypeVideo) {
-            videoConnection.videoOrientation = AVCaptureVideoOrientation.Portrait
-            stillImageOutput?.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler: {(sampleBuffer, error) in
-                if (sampleBuffer != nil) {
-                    let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
-                    let dataProvider = CGDataProviderCreateWithCFData(imageData)
-                    let cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, CGColorRenderingIntent.RenderingIntentDefault)
-                    
-                    let image = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.Right)
-                    self.imagePreview.setImage(image, forState: .Normal)
-                    self.saveImageObject(image) // Saving image captured to kinvey backend
-                }
-            })
-        }
-
-    }
-    @IBAction func uploadButtonTapped(sender: AnyObject) {
-        //action to allow users to choose a photo to save
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum){
-            captureSession?.stopRunning()
-            imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-            imagePicker.allowsEditing = false
-            
-            self.presentViewController(imagePicker, animated: true, completion: nil)
-        }
-    }
+    
+    
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender:AnyObject?)
     { // sending image to another view
@@ -68,19 +41,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             destViewController.photo = imagePreview.imageView?.image
         }
     }
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: NSDictionary!){
-        self.dismissViewControllerAnimated(true, completion: nil)
-        let backgroundImage = UIImageView(image: image)
-        self.view.insertSubview(backgroundImage, atIndex: 0)
-        self.view.bringSubviewToFront(backgroundImage)
-        self.imagePreview.setImage(image, forState: .Normal)
-        self.saveImageObject(image)
-        
-    }
     
     func saveImageObject(image: UIImage){
         //function to save images to backend
@@ -119,6 +80,72 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        importantImageStuff()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        //Bringing all elements to the front of the view
+        view.bringSubviewToFront(takePhotoBtn)
+        view.bringSubviewToFront(uploadBTN)
+        view.bringSubviewToFront(imagePreview)
+        previewLayer!.frame = self.view.layer.frame // setting the bound the of previewlayer
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        imagePicker.delegate = self
+        // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+}
+//Mark: ImagePicker stuff and image capture stuff
+extension ViewController{
+
+    @IBAction func capturePhoto(sender: AnyObject) {
+        if let videoConnection = stillImageOutput!.connectionWithMediaType(AVMediaTypeVideo) {
+            videoConnection.videoOrientation = AVCaptureVideoOrientation.Portrait
+            stillImageOutput?.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler: {(sampleBuffer, error) in
+                if (sampleBuffer != nil) {
+                    let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
+                    let dataProvider = CGDataProviderCreateWithCFData(imageData)
+                    let cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, CGColorRenderingIntent.RenderingIntentDefault)
+                    
+                    let image = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.Right)
+                    self.imagePreview.setImage(image, forState: .Normal)
+                    self.saveImageObject(image) // Saving image captured to kinvey backend
+                }
+            })
+        }
+        
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: NSDictionary!){
+        self.dismissViewControllerAnimated(true, completion: nil)
+        let backgroundImage = UIImageView(image: image)
+        self.view.insertSubview(backgroundImage, atIndex: 0)
+        self.view.bringSubviewToFront(backgroundImage)
+        self.imagePreview.setImage(image, forState: .Normal)
+        self.saveImageObject(image)
+        
+    }
+    
+    @IBAction func uploadButtonTapped(sender: AnyObject) {
+        //action to allow users to choose a photo to save
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum){
+            captureSession?.stopRunning()
+            imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+            imagePicker.allowsEditing = false
+            
+            self.presentViewController(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func importantImageStuff() ->Void {
         captureSession = AVCaptureSession()
         captureSession!.sessionPreset = AVCaptureSessionPresetPhoto
         
@@ -150,25 +177,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 captureSession!.startRunning()
             }
         }
-        
     }
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        view.bringSubviewToFront(takePhotoBtn)
-        view.bringSubviewToFront(uploadBTN)
-        view.bringSubviewToFront(photoPlace)
-        view.bringSubviewToFront(photoName)
-        view.bringSubviewToFront(imagePreview)
-        previewLayer!.frame = self.view.layer.frame //loadedImage.bounds
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        imagePicker.delegate = self
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-    
 }
+
+
+
 
 
 

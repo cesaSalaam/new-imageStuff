@@ -16,6 +16,9 @@ class showImageViewController: UIViewController {
     
     
     @IBAction func faceBookShare(sender: AnyObject) {
+        
+        //Action to share image to facebook
+        
         if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook){
             let facebookSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
             //facebookSheet.setInitialText(textField.text! as String)
@@ -27,6 +30,7 @@ class showImageViewController: UIViewController {
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
+    
     @IBOutlet var imageView: UIImageView!
     
     override func viewWillAppear(animated: Bool) {
