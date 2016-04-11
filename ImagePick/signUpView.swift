@@ -10,6 +10,8 @@ import UIKit
 
 class signUpView: UIViewController, UITextFieldDelegate {
     
+    //MARK: Outlets, Actions and Variables
+    
     @IBOutlet var username: UITextField!
     
     @IBOutlet var dateTextField: UITextField!
@@ -19,12 +21,15 @@ class signUpView: UIViewController, UITextFieldDelegate {
     var datePicker = UIDatePicker()
     
     @IBAction func createAccount(sender: AnyObject) {
-        print("create")
+        //Action for clicking Create Account button
+        //Makes sure there are no spaces in username and password
+        
         let whitespaceSet = NSCharacterSet.whitespaceCharacterSet()
         let userNameText = username.text
         let passwordText = password.text
         var finalUserNameText = ""
         var finalPasswordText = ""
+        
         if userNameText!.stringByTrimmingCharactersInSet(whitespaceSet) == "" {
             print("first if")
             // this statement stops user from being able to add white spaces to table
@@ -39,9 +44,7 @@ class signUpView: UIViewController, UITextFieldDelegate {
                 }
             }
             return
-        
         }
-        
         if passwordText!.stringByTrimmingCharactersInSet(whitespaceSet) == "" {
             // this statement stops user from being able to add white spaces to table
             return
@@ -61,15 +64,14 @@ class signUpView: UIViewController, UITextFieldDelegate {
             createUser(finalUserNameText, password: finalPasswordText)
             self.performSegueWithIdentifier("userPage", sender: nil)
             return
-            
         }
         createUser(userNameText!, password: passwordText!)
         self.performSegueWithIdentifier("userPage", sender: nil)
-        //space after word
-        
+        //Handle space after word
     }
     
     func createUser(name: String, password: String){
+        //Function to create new user with given parameters
         KCSUser.userWithUsername(
             name,
             password: password,
@@ -83,7 +85,11 @@ class signUpView: UIViewController, UITextFieldDelegate {
                 }
             }
         )
-        
+    }
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?){
+        //Function to dissmiss keyboard when view is clicked
+        view.endEditing(true)
+        super.touchesBegan(touches, withEvent: event)
     }
     
     override func viewDidLoad() {
@@ -93,7 +99,6 @@ class signUpView: UIViewController, UITextFieldDelegate {
         self.password.delegate = self;
         initializeDatePicker()
     }
-
 }
 
 // MARK: DatePicker Code

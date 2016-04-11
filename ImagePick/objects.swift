@@ -13,7 +13,6 @@ import UIKit
 class imageObject: NSObject{
     // image class
     var entityId: String?
-    
     var name: String?
     var image: UIImage?
     var place: String?
@@ -30,7 +29,7 @@ class imageObject: NSObject{
     
     override class func kinveyPropertyToCollectionMapping() -> [NSObject : AnyObject]! {
         //saving image property to different collection called images
-        return ["image" : KCSFileStoreCollectionName,
+        return ["image" : "images",//KCSFileStoreCollectionName,
         ]
     }
     

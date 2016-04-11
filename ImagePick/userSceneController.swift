@@ -33,32 +33,32 @@ class userViewController: UIViewController, UITableViewDelegate{
         self.performSegueWithIdentifier("imageViewSegue", sender: self)
     }
 
-    override func viewWillAppear(animated: Bool) {
-        self.initializeKinvey()
-        KCSPing.pingKinveyWithBlock { (result: KCSPingResult!) -> Void in
-            if result.pingWasSuccessful {
-                NSLog("Kinvey Ping Success")
-                if KCSUser.activeUser() == nil{
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let vc = storyboard.instantiateViewControllerWithIdentifier("User")
-                    self.presentViewController(vc, animated: true, completion: nil)
-                }
-                else{
-                    //User is already logged in----skip to user page.
-                    print("you have a user")
-                }
-            } else {
-                NSLog("Kinvey Ping Failed")
-            }
-        }
-    }
-    
-    func initializeKinvey(){
-        KCSClient.sharedClient().initializeKinveyServiceForAppKey(
-            "kid_-J1AyUJF1Z",
-            withAppSecret: "29d0b4f0f19d4a10ad8f18667edd9ddd",
-            usingOptions: nil
-        )
-    }
+//    override func viewWillAppear(animated: Bool) {
+//        self.initializeKinvey()
+//        KCSPing.pingKinveyWithBlock { (result: KCSPingResult!) -> Void in
+//            if result.pingWasSuccessful {
+//                NSLog("Kinvey Ping Success")
+//                if KCSUser.activeUser() == nil{
+//                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                    let vc = storyboard.instantiateViewControllerWithIdentifier("User")
+//                    self.presentViewController(vc, animated: true, completion: nil)
+//                }
+//                else{
+//                    //User is already logged in----skip to user page.
+//                    print("you have a user")
+//                }
+//            } else {
+//                NSLog("Kinvey Ping Failed")
+//            }
+//        }
+//    }
+//    
+//    func initializeKinvey(){
+//        KCSClient.sharedClient().initializeKinveyServiceForAppKey(
+//            "kid_-J1AyUJF1Z",
+//            withAppSecret: "29d0b4f0f19d4a10ad8f18667edd9ddd",
+//            usingOptions: nil
+//        )
+//    }
     
 }

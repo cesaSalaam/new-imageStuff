@@ -13,10 +13,14 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        KCSClient.sharedClient().initializeKinveyServiceForAppKey(
+            "kid_-J1AyUJF1Z",
+            withAppSecret: "29d0b4f0f19d4a10ad8f18667edd9ddd",
+            usingOptions: nil)
         return true
     }
 

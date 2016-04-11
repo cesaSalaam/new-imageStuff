@@ -5,18 +5,30 @@
 //  Created by Lifoma Salaam on 3/14/16.
 //  Copyright © 2016 CesaSalaam. All rights reserved.
 //
-// test
+
+//MARK: Imports
 
 import UIKit
 import AVFoundation
+import CoreData
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
 
-    //MARK Outlets
+    //MARK: Outlets and Actions
     @IBOutlet var imagePreview: UIButton!
     @IBOutlet var takePhotoBtn: UIButton!
     @IBOutlet var uploadBTN: UIButton!
     
+    @IBAction func tappedPreviewImageBtn(sender: AnyObject) {
+        self.performSegueWithIdentifier("viewCollection", sender: imagePreview)
+    }
+    
+    @IBAction func logout(sender: AnyObject) {
+        KCSUser.activeUser().logout()
+        self.performSegueWithIdentifier("backToLogIn", sender: self)
+    }
+    
+    //MARK: Variables
     
     let imagePicker = UIImagePickerController()
     
@@ -26,33 +38,73 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     var previewLayer: AVCaptureVideoPreviewLayer?
     
-    @IBAction func tappedPreviewImageBtn(sender: AnyObject) {
-        
-        self.performSegueWithIdentifier("showImage", sender: imagePreview)
+    let moContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+    
+    
+    //MARK: Functions for View
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        importantImageStuff()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        //Bringing all elements to the front of the view
+        view.bringSubviewToFront(takePhotoBtn)
+        view.bringSubviewToFront(uploadBTN)
+        view.bringSubviewToFront(imagePreview)
+        previewLayer!.frame = self.view.layer.frame // setting the bound the of previewlayer
+    }
     
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender:AnyObject?)
-    { // sending image to another view
-        if segue.identifier == "showImage"{
-            let destViewController: showImageViewController = segue.destinationViewController as! showImageViewController
-            
-            destViewController.photo = imagePreview.imageView?.image
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        imagePicker.delegate = self
+        // Do any additional setup after loading the view, typically from a nib.
+        KCSPing.pingKinveyWithBlock { (result: KCSPingResult!) -> Void in
+            if result.pingWasSuccessful {
+                NSLog("Kinvey Ping Success")
+                if KCSUser.activeUser() == nil{
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let viewController = storyboard.instantiateViewControllerWithIdentifier("Login") as! logInController
+                    self.presentViewController(viewController, animated: true, completion: nil)
+                }
+                else{
+                    //User is already logged in----skip to user page.
+                    print("you have a user")
+                }
+            } else {
+                NSLog("Kinvey Ping Failed")
+            }
         }
     }
     
+}
+
+//MARK: SavingData
+extension ViewController{
+
+    func saveImageToCoreData(image: UIImage) -> Void {
+        //Convert image to JPEG
+        let imageData = UIImageJPEGRepresentation(image, 1)
+        
+        //Get the description of the entiti
+        let storeDescription = NSEntityDescription.entityForName("Store", inManagedObjectContext: moContext)
+        let store = Store(entity: storeDescription!, insertIntoManagedObjectContext: moContext)
+        store.picture = imageData
+    }
     
     func saveImageObject(image: UIImage){
-        //function to save images to backend
+        
+        self.saveImageToCoreData(image) // Saving image to core Data
         
         let data = UIImageJPEGRepresentation(image, 0.9)
         KCSFileStore.uploadData(data, options: nil, completionBlock: { (uploadInfo: KCSFile!, error: NSError!) -> Void in
             print("Upload finished. File id=\(uploadInfo.fileId), error=\(error)")
             
             }, progressBlock: nil)
+        
         //Creating imageStore to save image to
-        let imageStore = KCSLinkedAppdataStore.storeWithOptions([
+        let imageStore = KCSAppdataStore.storeWithOptions([
             KCSStoreKeyCollectionName : "imageInfo",
             KCSStoreKeyCollectionTemplateClass : imageObject.self
             ])
@@ -76,30 +128,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             withProgressBlock: nil
         )
     }
-    
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        importantImageStuff()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        //Bringing all elements to the front of the view
-        view.bringSubviewToFront(takePhotoBtn)
-        view.bringSubviewToFront(uploadBTN)
-        view.bringSubviewToFront(imagePreview)
-        previewLayer!.frame = self.view.layer.frame // setting the bound the of previewlayer
-    }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        imagePicker.delegate = self
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-    
 }
-//Mark: ImagePicker stuff and image capture stuff
+
+//MARK: ImagePicker stuff and image capture stuff
 extension ViewController{
 
     @IBAction func capturePhoto(sender: AnyObject) {
@@ -117,7 +149,6 @@ extension ViewController{
                 }
             })
         }
-        
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -140,12 +171,12 @@ extension ViewController{
             captureSession?.stopRunning()
             imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
             imagePicker.allowsEditing = false
-            
             self.presentViewController(imagePicker, animated: true, completion: nil)
         }
     }
     
     func importantImageStuff() ->Void {
+        
         captureSession = AVCaptureSession()
         captureSession!.sessionPreset = AVCaptureSessionPresetPhoto
         

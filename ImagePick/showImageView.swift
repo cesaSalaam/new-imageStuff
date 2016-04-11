@@ -8,7 +8,7 @@
 
 import Social
 import UIKit
-class showImageViewController: UIViewController {
+class showImageViewController: UIViewController{
     
     //View to display image taken.
     
@@ -18,7 +18,6 @@ class showImageViewController: UIViewController {
     @IBAction func faceBookShare(sender: AnyObject) {
         
         //Action to share image to facebook
-        
         if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook){
             let facebookSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
             //facebookSheet.setInitialText(textField.text! as String)
