@@ -21,6 +21,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             "kid_-J1AyUJF1Z",
             withAppSecret: "29d0b4f0f19d4a10ad8f18667edd9ddd",
             usingOptions: nil)
+        //Sets navigation bar to be translucent
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), forBarMetrics: .Default)
+        // Sets shadow (line below the bar) to a blank image
+        UINavigationBar.appearance().shadowImage = UIImage()
+        // Sets the translucent background color
+        UINavigationBar.appearance().backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
+        // Set translucent. (Default value is already true, so this can be removed if desired.)
+        UINavigationBar.appearance().translucent = true
         return true
     }
 

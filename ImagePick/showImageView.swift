@@ -5,15 +5,16 @@
 //  Created by Lifoma Salaam on 3/23/16.
 //  Copyright © 2016 CesaSalaam. All rights reserved.
 //
+//View controller to display picture
 
 import Social
 import UIKit
 class showImageViewController: UIViewController{
-    
-    //View to display image taken.
-    
+
+    //MARK: Outlets and Actions and Variables
     var photo: UIImage?
     
+    @IBOutlet var imageView: UIImageView!
     
     @IBAction func faceBookShare(sender: AnyObject) {
         
@@ -30,10 +31,9 @@ class showImageViewController: UIViewController{
         }
     }
     
-    @IBOutlet var imageView: UIImageView!
-    
     override func viewWillAppear(animated: Bool) {
         if ((self.photo) != nil){
+            //checks to make sure photo is not empty
             imageView.image = photo
         }
     }

@@ -39,11 +39,13 @@ class logInController: UIViewController,UITextFieldDelegate {
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?){
+        //resigns keyboard when background is tapped
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
     }
     
     override func viewWillAppear(animated: Bool) {
+        //hides navigation bar back button on login Screen
         self.navigationItem.setHidesBackButton(true, animated:true);
     }
 }

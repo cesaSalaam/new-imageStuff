@@ -24,8 +24,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func logout(sender: AnyObject) {
+        if KCSUser.activeUser() == nil{
+        
+        }else{
         KCSUser.activeUser().logout()
         self.performSegueWithIdentifier("backToLogIn", sender: self)
+        }
     }
     
     //MARK: Variables
@@ -131,7 +135,8 @@ extension ViewController{
 
 }
 
-//MARK: ImagePicker stuff and image capture stuff
+//MARK: ImagePicker and image capture
+
 extension ViewController{
 
     @IBAction func capturePhoto(sender: AnyObject) {
@@ -210,19 +215,3 @@ extension ViewController{
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

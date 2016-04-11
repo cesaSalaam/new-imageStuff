@@ -32,7 +32,6 @@
 		D92C8F651CA2724200CDFD58 /* showImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92C8F641CA2724200CDFD58 /* showImageView.swift */; };
 		D92C8F671CA471B700CDFD58 /* objects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92C8F661CA471B700CDFD58 /* objects.swift */; };
 		D952091C1C99FC7900861BC2 /* loginInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D952091B1C99FC7900861BC2 /* loginInController.swift */; };
-		D952091E1C9C91F900861BC2 /* userSceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D952091D1C9C91F900861BC2 /* userSceneController.swift */; };
 		D95209221C9F48C000861BC2 /* signUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95209211C9F48C000861BC2 /* signUpView.swift */; };
 /* End PBXBuildFile section */
 
@@ -86,7 +85,6 @@
 		D92C8F641CA2724200CDFD58 /* showImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = showImageView.swift; sourceTree = "<group>"; };
 		D92C8F661CA471B700CDFD58 /* objects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = objects.swift; sourceTree = "<group>"; };
 		D952091B1C99FC7900861BC2 /* loginInController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loginInController.swift; sourceTree = "<group>"; };
-		D952091D1C9C91F900861BC2 /* userSceneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = userSceneController.swift; sourceTree = "<group>"; };
 		D95209211C9F48C000861BC2 /* signUpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = signUpView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,19 +151,18 @@
 				D92231411C978074007BFC9E /* ViewController.swift */,
 				D952091B1C99FC7900861BC2 /* loginInController.swift */,
 				D95209211C9F48C000861BC2 /* signUpView.swift */,
-				D952091D1C9C91F900861BC2 /* userSceneController.swift */,
 				D91F168F1CB7EA6E004FB184 /* collectionViewController.swift */,
 				D92C8F641CA2724200CDFD58 /* showImageView.swift */,
-				D92231431C978074007BFC9E /* Main.storyboard */,
-				D92231491C978074007BFC9E /* Assets.xcassets */,
-				D922314B1C978074007BFC9E /* LaunchScreen.storyboard */,
-				D922314E1C978074007BFC9E /* Info.plist */,
-				D92231461C978074007BFC9E /* ImagePick.xcdatamodeld */,
-				D92231891C979D0F007BFC9E /* ImagePicker-Bridging-Header.h */,
+				D91F16911CB7F072004FB184 /* customCollectionCellCollectionViewCell.swift */,
 				D92C8F661CA471B700CDFD58 /* objects.swift */,
 				D91F16891CB7E5BD004FB184 /* Store+CoreDataProperties.swift */,
 				D91F168A1CB7E5BD004FB184 /* Store.swift */,
-				D91F16911CB7F072004FB184 /* customCollectionCellCollectionViewCell.swift */,
+				D92231891C979D0F007BFC9E /* ImagePicker-Bridging-Header.h */,
+				D92231431C978074007BFC9E /* Main.storyboard */,
+				D92231491C978074007BFC9E /* Assets.xcassets */,
+				D922314E1C978074007BFC9E /* Info.plist */,
+				D922314B1C978074007BFC9E /* LaunchScreen.storyboard */,
+				D92231461C978074007BFC9E /* ImagePick.xcdatamodeld */,
 			);
 			path = ImagePick;
 			sourceTree = "<group>";
@@ -341,7 +338,6 @@
 			files = (
 				D95209221C9F48C000861BC2 /* signUpView.swift in Sources */,
 				D92231421C978074007BFC9E /* ViewController.swift in Sources */,
-				D952091E1C9C91F900861BC2 /* userSceneController.swift in Sources */,
 				D92231481C978074007BFC9E /* ImagePick.xcdatamodeld in Sources */,
 				D91F16901CB7EA6E004FB184 /* collectionViewController.swift in Sources */,
 				D91F16921CB7F072004FB184 /* customCollectionCellCollectionViewCell.swift in Sources */,

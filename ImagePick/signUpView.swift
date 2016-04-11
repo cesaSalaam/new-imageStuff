@@ -86,6 +86,7 @@ class signUpView: UIViewController, UITextFieldDelegate {
             }
         )
     }
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?){
         //Function to dissmiss keyboard when view is clicked
         view.endEditing(true)
@@ -95,8 +96,6 @@ class signUpView: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.username.delegate = self;
-        self.password.delegate = self;
         initializeDatePicker()
     }
 }
@@ -128,8 +127,6 @@ extension signUpView{
         dateTextField.inputAccessoryView = toolBar
     }
 
-    //
-    // when user cancels, just resign first responder and keep it moving
     @IBAction func editingbegan(sender: AnyObject) {
         dateTextField.becomeFirstResponder()
     }
@@ -138,10 +135,6 @@ extension signUpView{
         dateTextField.resignFirstResponder()
     }
     
-    //
-    // when the datePicker is completed from the done button, this is called to format the date
-    // and then respond first responder to hide the datePicker
-    //
     func datePickerChanged() {
         let dateFormatter = NSDateFormatter()
         
