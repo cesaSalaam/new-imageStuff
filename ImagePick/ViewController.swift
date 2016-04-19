@@ -108,7 +108,7 @@ extension ViewController{
             }, progressBlock: nil)
         
         //Creating imageStore to save image to
-        let imageStore = KCSAppdataStore.storeWithOptions([
+        let imageStore = KCSLinkedAppdataStore.storeWithOptions([
             KCSStoreKeyCollectionName : "imageInfo",
             KCSStoreKeyCollectionTemplateClass : imageObject.self
             ])
