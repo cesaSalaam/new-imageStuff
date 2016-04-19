@@ -29,7 +29,7 @@ class imageObject: NSObject{
     
     override class func kinveyPropertyToCollectionMapping() -> [NSObject : AnyObject]! {
         //saving image property to different collection called images
-        return ["image" : "images",//KCSFileStoreCollectionName,
+        return ["image" : KCSFileStoreCollectionName,
         ]
     }
     
