@@ -47,7 +47,6 @@ extension collectionViewController{
             destViewController.photo = currPhoto
         }
     }
-    
     // MARK: UICollectionViewDataSource
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -73,7 +72,6 @@ extension collectionViewController{
         return true
     }
     
-    // Uncomment this method to specify if the specified item should be selected
     override func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
         let imageData = stores[indexPath.row].picture
         currPhoto = UIImage(data: imageData!)

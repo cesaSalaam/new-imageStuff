@@ -9,8 +9,6 @@
 import UIKit
 
 class customCollectionCellCollectionViewCell: UICollectionViewCell {
-    
-    
+    //custom cell for collection view
     @IBOutlet var imageView: UIImageView!
-
 }
